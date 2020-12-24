@@ -110,7 +110,7 @@ int main(int argc, char *argv[])
 
         else if(pid > 0){
 
-        // wait(NULL); /* parent will wait for the child to complete */ 
+        wait(NULL); /* parent will wait for the child to complete */ 
         printf("I am the parent process.\n");
         }
     } 
