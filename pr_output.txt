@@ -1,0 +1,5 @@
+P1 is waiting for a signal
+P2 is waiting for a signal
+P3 is waiting for a signal
+P4 is waiting for a signal
+P5 is waiting for a signal
