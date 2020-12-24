@@ -1,0 +1,4 @@
+./executor 5 instructions.txt & ./watchdog 5 pr_output.txt wtc_output.txt
+g++ watchdog.cpp -std=c++11 -o watchdog
+g++ process.cpp -std=c++11 -o process
+
