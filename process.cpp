@@ -24,28 +24,38 @@ int main(int argc, char *argv[])
 
 vector<string> file_content;
 fstream process_file;
-
+string line;
 char* child_process = argv[1];
-cout << argv[1]<<" is waiting for a signal"<<endl;
 
 
-process_file.open("pr_output.txt");
-string x;
-while (process_file >> x) {
-    file_content.push_back(x);
-}
 
-for(int i=0; i < file_content.size(); i++){
+// cout << argv[1]<<" is waiting for a signal"<<endl;
 
-	cout << file_content.at(i)<< endl;
-	process_file<<file_content.at(i);
-}
+cout<<"yesssss"<<endl;
+process_file.open("./pr_output.txt");
+cout<<"file created"<<endl;
+// while (!process_file.eof())
+// {
+	
+// 	getline (process_file,line);   
+// 	file_content.push_back(line);    
+// }
 
-if (process_file.is_open()){
-    process_file << argv[1]<<" is started and it has a pid of "<<to_string(getpid())<<endl;
-}
+// for(int i=0; i < file_content.size(); i++){
 
-process_file.close();
+// 	cout << file_content.at(i)<< endl;
+// 	process_file<<file_content.at(i)<<endl;
+// }
+
+
+// if (process_file.is_open()){
+// 	cout<<"yesssss"<<endl;
+//     process_file << argv[1]<<" is waiting for a signal"<<endl;
+//     process_file.close();
+//     cout << argv[1]<<" is started and it has a pid of "<<to_string(getpid())<<endl;
+// }
+
+
 return 0;
 
 

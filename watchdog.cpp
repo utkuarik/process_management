@@ -62,8 +62,14 @@ int main(int argc, char *argv[])
     int namedpipe = open(myfifo, O_WRONLY);
     int fd;
     char arr1[80], arr2[80];
-
-    ofstream myfile (argv[3]);
+    fstream watchdog_file(argv[3], ios::out);
+    fstream process_file (argv[2], ios::out);
+    
+        if(!watchdog_file)
+    {
+        cout << "Couldn't open file" << endl;
+        return 1;
+    }
 
     // Add watchdog to pipe 
     string  msg;
@@ -71,6 +77,7 @@ int main(int argc, char *argv[])
     cout << msg << endl;
     write(namedpipe, msg.c_str(), strlen(msg.c_str())+1); 
     close(namedpipe);
+    
 
 
 
@@ -88,24 +95,14 @@ int main(int argc, char *argv[])
             const char *child_process = temp.c_str();
             write(namedpipe, msg.c_str(), strlen(msg.c_str())+1); 
             close(namedpipe);
-            printf("[child] pid %d from [parent] pid %d\n",getpid(),getppid()); 
-            if (myfile.is_open()){
-                myfile << "P"<<" "<<i<<" is started and it has a pid of "<<to_string(getpid())<<endl;
-            }
+
+            cout<<"P"<<i<<" is started and it has a pid of "<<to_string(getpid())<<endl;
+            watchdog_file << "P"<<i<<" is started and it has a pid of "<<to_string(getpid())<<endl;
 
 
-
-            // Open FIFO for Read only 
-            // fd = open(myfifo, O_RDONLY); 
-      
-            // // // Read from FIFO 
-            // read(fd, arr1, sizeof(arr1)); 
-      
-            // // Print the read message 
-            // printf("User2: %s\n", arr1); 
             cout<< child_process << endl;
-            execlp("./process.out","./process.out", child_process, (char *)NULL);
-            
+            int i = execlp("./process","./process", child_process, NULL);
+            cout<<i<<endl;
             return 0;
 
             
