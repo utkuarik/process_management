@@ -27,6 +27,7 @@ int main(int argc, char *argv[])
 
     // Add watchdog to pipe 
     string  msg;
+    string p_id;
     msg =  "P0 "  + to_string(getpid());
     cout << msg << endl;
     write(namedpipe, msg.c_str(), strlen(msg.c_str())+1); 
@@ -40,7 +41,8 @@ int main(int argc, char *argv[])
         {
             pidList.push_back(getpid());
             msg =  "P" + to_string(i) + " " + to_string(getpid());
-            cout << msg << endl;
+            p_id = "P" + to_string(i);
+            // cout << msg << endl;
             string temp = "P" + to_string(i);
             const char *child_process = temp.c_str();
             write(namedpipe, msg.c_str(), strlen(msg.c_str())+1); 
@@ -49,15 +51,18 @@ int main(int argc, char *argv[])
             watchdog_file << "P"<<i<<" is started and it has a pid of "<<to_string(getpid())<<endl;
 
 
-            cout<< child_process << endl;
-            int k = execlp("./process", "./process", child_process, argv[2], NULL);
-            cout<<k<<endl;
-            return 0;
+            // cout<< child_process << endl;
+            int k = execlp("./process", "./process", child_process, argv[2], p_id.c_str(), NULL);
+            // cout<<k<<endl;
+            // return 0;
         }
     }
+
+
     int count = 0; 
-    while(count < 5) {
-        int deadChildPid = wait(NULL); /* parent will wait for the child to complete */ 
+    while(1) {
+        int deadChildPid = wait(NULL);  
+        // parent will wait for the child to complete  
         cout << "dead pid:" <<deadChildPid<< endl;
         count++;
     }
