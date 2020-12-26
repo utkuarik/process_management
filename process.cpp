@@ -14,8 +14,33 @@
 #include <fcntl.h>
 #include <map>
 #include <vector>
+#include <signal.h> 
 using namespace std;
 
+
+// define signal handlers
+void sighup_handler(int sighup) 
+  
+{ 
+    signal(SIGHUP, sighup_handler ); /* reset signal */
+    printf("CHILD: I have received a SIGHUP\n"); 
+} 
+  
+// sigint() function definition 
+void sigint_handler(int sigint) 
+  
+{ 
+    signal(SIGINT, sigint_handler); /* reset signal */
+    printf("CHILD: I have received a SIGINT\n"); 
+} 
+  
+// sigquit() function definition 
+void sigquit_handler(int sigquit) 
+{   
+    signal(SIGINT, sigquit_handler);
+    printf("My DADDY has Killed me!!!\n"); 
+    exit(0); 
+} 
 
 
 
@@ -57,9 +82,17 @@ process_file << argv[1]<<" is waiting for a signal"<<endl;
 cout << argv[1]<<" is started and it has a pid of "<<to_string(getpid())<<endl;
 
 
+signal(SIGHUP, sighup); 
+signal(SIGINT, sigint); 
+signal(SIGQUIT, sigquit); 
+for (;;) 
+    ; /* loop for ever */
 
 return 0;
 
 
 }
+
+
+
 
