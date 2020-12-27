@@ -22,7 +22,7 @@ fstream process_file ;
 
 // define signal handlers
 void sighup_handler(int sighup) 
-{ 
+{
     signal(SIGHUP, sighup_handler ); /* reset signal */
     cout<<p_id<< " received signal " << sighup<< endl;
     process_file <<p_id<< " received signal " << sighup<<endl;
@@ -85,35 +85,16 @@ void sigxcpu_handler(int sigxcpu)
 
 } 
 
-
-
-
 int main(int argc, char *argv[]) 
 { 
-
-	// cout<<argv[2]<<endl;
     vector<string> file_content;
     process_file.open(argv[2],ios::app);
-    p_id = argv[3];
-    // cout<<"P: "<<p_id<<endl;
+    p_id = argv[1];
+    sigset_t   set;
+    int sig1;
 
     string line;
     char* child_process = argv[1];
-
-    // cout<<"file created"<<endl;
-    // while (!process_file.eof())
-    // {
-       
-    //     getline (process_file,line);   
-    //     cout<<line<<endl;
-    //     file_content.push_back(line);    
-    // }
-
-    // for(int i=0; i < file_content.size(); i++){
-
-    //     cout << file_content.at(i)<< endl;
-    //     process_file<<file_content.at(i)<<endl;
-    // }
 
     process_file << argv[1]<<" is waiting for a signal"<<endl;
     cout << argv[1]<<" is waiting for a signal "<<endl;
@@ -127,9 +108,8 @@ int main(int argc, char *argv[])
     signal(SIGFPE, sigfpe_handler); 
     signal(SIGSEGV, sigsegv_handler); 
     signal(SIGXCPU, sigxcpu_handler); 
-
-
-    for (;;) ; /* loop for ever */
+    while(1)
+        sigwait(&set, &sig1);
     return 0;
 
 }
