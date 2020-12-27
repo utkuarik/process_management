@@ -42,7 +42,7 @@ void sigterm_handler(int sigterm)
     signal(SIGTERM, sigterm_handler);
     cout<<p_id<< " received signal " << sigterm<< endl;
     process_file <<p_id<< " received signal " << sigterm<<endl;
-    exit(15); 
+    exit(0); 
 } 
 
 void sigill_handler(int sigill) 
